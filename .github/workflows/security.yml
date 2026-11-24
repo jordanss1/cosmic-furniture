@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - staging
-      - main
+      - prod
 
 permissions:
   contents: read
