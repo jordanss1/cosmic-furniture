@@ -22,7 +22,6 @@
 
 # misc
 .DS_Store
-*.pem
 
 # debug
 npm-debug.log*
@@ -30,8 +29,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files — everything except examples/docs
 .env*
+!.env.example
+!.env.*.example
 
 # vercel
 .vercel
@@ -39,3 +40,51 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# certificates and private keys
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa
+id_rsa.*
+id_dsa
+id_ecdsa
+id_ed25519
+
+# credential stores (often contain auth tokens)
+.npmrc
+.pypirc
+.netrc
+.htpasswd
+
+# cloud / service account credentials
+service-account*.json
+serviceAccount*.json
+*-service-account*.json
+firebase-adminsdk*.json
+.aws/
+.gcloud/
+.kube/
+
+# secret folders and files
+/.secrets/
+/.secret/
+/.private/
+*.secret
+*.secrets
+
+# auth state, tokens and cookies (e.g. Playwright storage state)
+cookies.txt
+storageState*.json
+*.token
+*.session
+
+# local databases and dumps
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+dump.sql

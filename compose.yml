@@ -1,0 +1,52 @@
+services:
+  # Node.js service (use with: docker compose up nextjs-standalone --build)
+  nextjs-standalone:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nextjs-standalone-image
+    container_name: nextjs-standalone-container
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      - db
+    develop:
+      watch:
+        # The production image only contains the standalone build, so changes
+        # cannot be hot-reloaded. Rebuild the image and recreate the container.
+        # Usage: docker compose up nextjs-standalone --watch
+        - action: rebuild
+          path: ./
+          ignore:
+            - node_modules/
+            - .next/
+            - .git/
+            - "**/*.log"
+            - README.md
+            - AGENTS.md
+            - compose.yml
+            - compose.yaml
+
+  db:
+    image: mysql:8
+    container_name: db
+    environment:
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_DATABASE: map
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/my.cnf
+    ports:
+      - 12345:3306
+    env_file:
+      - ./.env
+
+volumes:
+  db_data:
