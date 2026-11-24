@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cosmic Furniture
 
-## Getting Started
+A Next.js, ecommerce, furniture application with MySQL and Docker Compose.
 
-First, run the development server:
+## Requirements
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+For local development:
+
+- Node.js 22+
+- npm
+- Docker Engine
+- Docker Compose
+
+## Environment variables
+
+The MySQL container requires the following environment variables.
+
+Create a `.env` file in the project root, alongside `compose.yml`:
+
+```env
+DB_PASS=your_database_password
+DB_ROOT_PASS=your_mysql_root_password
+DB_USERNAME=your_database_username
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Variable       | Description                                |
+| -------------- | ------------------------------------------ |
+| `DB_PASS`      | Password for the application database user |
+| `DB_ROOT_PASS` | MySQL root password                        |
+| `DB_USERNAME`  | Username for the application database user |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Run the application using Docker
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To run the application and MySQL together using Docker Compose:
 
-## Learn More
+```bash
+docker compose up --build
+```
 
-To learn more about Next.js, take a look at the following resources:
+To run in the background:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+docker compose up --build -d
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This builds and starts the services defined in `compose.yml`.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Your MySQL data should persist in the configured Docker volume when containers are stopped or removed.
