@@ -41,3 +41,43 @@ jobs:
 
       - name: Production build
         run: npm run build
+
+  deploy-staging:
+    name: Deploy to staging
+    runs-on: ubuntu-latest
+    needs: security
+    if: github.ref == 'refs/heads/staging'
+
+    steps:
+      - name: Trigger Dokploy staging
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          APP_ID: ${{ secrets.DOKPLOY_STAGING_APP_ID }}
+        run: |
+          curl --fail-with-body --request POST \
+            "$DOKPLOY_URL/api/application.deploy" \
+            --header "accept: application/json" \
+            --header "Content-Type: application/json" \
+            --header "x-api-key: $DOKPLOY_API_KEY" \
+            --data "{\"applicationId\":\"$APP_ID\"}"
+
+  # deploy-production:
+  #   name: Deploy to production
+  #   runs-on: ubuntu-latest
+  #   needs: security
+  #   if: github.ref == 'refs/heads/prod'
+
+  #   steps:
+  #     - name: Trigger Dokploy production
+  #       env:
+  #         DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+  #         DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+  #         APP_ID: ${{ secrets.DOKPLOY_PRODUCTION_APP_ID }}
+  #       run: |
+  #         curl --fail-with-body --request POST \
+  #           "$DOKPLOY_URL/api/application.deploy" \
+  #           --header "accept: application/json" \
+  #           --header "Content-Type: application/json" \
+  #           --header "x-api-key: $DOKPLOY_API_KEY" \
+  #           --data "{\"applicationId\":\"$APP_ID\"}"
