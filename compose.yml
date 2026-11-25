@@ -1,14 +1,14 @@
 services:
-  # Node.js service (use with: docker compose up nextjs-standalone --build)
-  nextjs-standalone:
+  nextjs:
     build:
       context: .
       dockerfile: Dockerfile
-    image: nextjs-standalone-image
-    container_name: nextjs-standalone-container
+    image: nextjs-image
+    container_name: nextjs-container
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       PORT: "3000"
+      HOSTNAME: "0.0.0.0"
     ports:
       - "3000:3000"
     restart: unless-stopped
@@ -16,35 +16,45 @@ services:
       - db
     develop:
       watch:
-        # The production image only contains the standalone build, so changes
-        # cannot be hot-reloaded. Rebuild the image and recreate the container.
-        # Usage: docker compose up nextjs-standalone --watch
-        - action: rebuild
-          path: ./
+        - path: ./package.json
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+
+        - path: ./next.config.js
+          action: rebuild
+
+        - path: .
+          target: /app
+          action: sync
           ignore:
             - node_modules/
             - .next/
             - .git/
-            - "**/*.log"
-            - README.md
-            - AGENTS.md
+            - .env
+            - .env.*
+            - package.json
+            - package-lock.json
+            - Dockerfile
             - compose.yml
             - compose.yaml
+            - "**/*.log"
 
+  # MySQL database
   db:
     image: mysql:8
     container_name: db
     environment:
       MYSQL_PASSWORD: ${DB_PASS}
       MYSQL_USER: ${DB_USERNAME}
-      MYSQL_DATABASE: furniture
+      MYSQL_DATABASE: ${DB_NAME}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
     restart: always
     volumes:
       - db_data:/var/lib/mysql
       - ./my.cnf:/etc/mysql/my.cnf
     ports:
-      - 12345:3306
+      - "12345:3306"
     env_file:
       - ./.env
 

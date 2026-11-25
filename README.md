@@ -21,6 +21,7 @@ Create a `.env` file in the project root, alongside `compose.yml`:
 DB_PASS=your_database_password
 DB_ROOT_PASS=your_mysql_root_password
 DB_USERNAME=your_database_username
+DB_NAME=your_database_name
 ```
 
 | Variable       | Description                                |
@@ -28,19 +29,14 @@ DB_USERNAME=your_database_username
 | `DB_PASS`      | Password for the application database user |
 | `DB_ROOT_PASS` | MySQL root password                        |
 | `DB_USERNAME`  | Username for the application database user |
+| `DB_NAME`      | Name for the database                      |
 
 ## Run the application using Docker
 
 To run the application and MySQL together using Docker Compose:
 
 ```bash
-docker compose up --build
-```
-
-To run in the background:
-
-```bash
-docker compose up --build -d
+docker compose up --watch
 ```
 
 This builds and starts the services defined in `compose.yml`.
