@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { exo2, expletusSans } from "./fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000"),
@@ -45,7 +46,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className="h-full antialiased">
+    <html
+      lang="en"
+      className={`h-full antialiased ${exo2.variable} ${expletusSans.variable}`}
+    >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

@@ -40,7 +40,6 @@ services:
             - compose.yaml
             - "**/*.log"
 
-  # MySQL database
   db:
     image: mysql:8
     container_name: db

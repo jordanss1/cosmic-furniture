@@ -3,13 +3,39 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --cosmic-blue-1: #09c4e1;
+  --cosmic-blue-2: #011982;
+  --cosmic-blue-3: #110d29;
+  --cosmic-purple-1: #9a3ae0;
+  --cosmic-white-1: #ebebeb;
+  --cosmic-white-2: #dfdfdf;
+  --cosmic-white-3: #b5b5b5;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cosmic-blue-1: var(--cosmic-blue-1);
+  --color-cosmic-blue-2: var(--cosmic-blue-2);
+  --color-cosmic-blue-3: var(--cosmic-blue-3);
+  --color-cosmic-white-1: var(--cosmic-white-1);
+  --color-cosmic-white-2: var(--cosmic-white-2);
+  --color-cosmic-white-3: var(--cosmic-white-3);
+
+  --background-image-cosmic-gradient-1: linear-gradient(
+    to right,
+    var(--cosmic-purple-1) 17%,
+    var(--cosmic-blue-1) 84%
+  );
+
+  --font-sans: var(--font-exo-2);
+  --font-expletus: var(--font-expletus-sans);
+}
+
+@layer components {
+  .container-site {
+    @apply w-full max-w-7xl;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
